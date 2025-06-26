@@ -6,7 +6,7 @@ class Airplane(models.Model):
     name = models.CharField(max_length=255)
     rows = models.PositiveIntegerField()
     seats_in_row = models.PositiveIntegerField()
-    airplane_type = models.ForeignKey(AirplaneType, on_delete=models.CASCADE)
+    airplane_type = models.ForeignKey(AirplaneType, on_delete=models.CASCADE, related_name="airplanes")
 
     def clean(self):
         if self.rows <= 0 or self.seats_in_row <= 0:
