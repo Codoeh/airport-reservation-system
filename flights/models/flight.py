@@ -1,11 +1,9 @@
 from django.db import models
 
-from flights.models import Route, Airplane
-
 
 class Flight(models.Model):
-    route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name="flights")
-    airplane = models.ForeignKey(Airplane, on_delete=models.CASCADE, related_name="flights")
+    route = models.ForeignKey("flights.Route", on_delete=models.CASCADE, related_name="flights")
+    airplane = models.ForeignKey("flights.Airplane", on_delete=models.CASCADE, related_name="flights")
     departure_time = models.DateTimeField(auto_now=False, auto_now_add=False)
     arrival_time = models.DateTimeField(auto_now=False, auto_now_add=False)
 
