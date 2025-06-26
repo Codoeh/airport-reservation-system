@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from .airplane_type import AirplaneType
+
 
 class Airplane(models.Model):
     name = models.CharField(max_length=255, unique=True)

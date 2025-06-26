@@ -16,7 +16,7 @@ class TicketInLine(admin.TabularInline):
     extra = 1
 
 @admin.register(Order)
-class OrderAdmin(admin.ModelAdmin)
+class OrderAdmin(admin.ModelAdmin):
     inlines = (TicketInLine,)
 
 admin.site.register(Airplane)
