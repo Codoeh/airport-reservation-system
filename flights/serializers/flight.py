@@ -21,3 +21,42 @@ class FlightSerializer(serializers.ModelSerializer):
             "route",
             "airplane",
         )
+
+
+class FlightInCrewListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Flight
+        fields = (
+            "id",
+        )
+
+
+class FlightInCrewDetailSerializer(serializers.ModelSerializer):
+    route = serializers.StringRelatedField()
+    airplane = serializers.StringRelatedField()
+
+    class Meta:
+        model = Flight
+        fields = (
+            "id",
+            "departure_time",
+            "arrival_time",
+            "route",
+            "airplane",
+        )
+
+class FlightListSerializer(serializers.ModelSerializer):
+    crew = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    route = serializers.PrimaryKeyRelatedField(read_only=True)
+    airplane = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Flight
+        fields = (
+            "id",
+            "departure_time",
+            "arrival_time",
+            "route",
+            "airplane",
+            "crew",
+        )

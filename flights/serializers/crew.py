@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .flight import FlightSerializer
+from .flight import FlightSerializer, FlightInCrewListSerializer, FlightInCrewDetailSerializer
 from ..models import Flight
 from ..models.crew import Crew
 
@@ -24,3 +24,10 @@ class CrewSerializer(serializers.ModelSerializer):
             "flights_ids",
         )
         read_only_fields = ("id",)
+
+class CrewListSerializer(CrewSerializer):
+    flights = FlightInCrewListSerializer(many=True, read_only=True)
+
+
+class CrewDetailSerializer(CrewSerializer):
+    flights = FlightInCrewDetailSerializer(many=True, read_only=True)
