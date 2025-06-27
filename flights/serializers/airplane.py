@@ -1,9 +1,12 @@
 from rest_framework import serializers
 
+from .airplane_type import AirplaneTypeSerializer
 from ..models.airplane import Airplane
 
 
 class AirplaneSerializer(serializers.ModelSerializer):
+    airplane_type_name = serializers.CharField(source="airplane_type.name", read_only=True)
+
     class Meta:
         model = Airplane
         fields = (
@@ -12,5 +15,6 @@ class AirplaneSerializer(serializers.ModelSerializer):
             "rows",
             "seats_in_row",
             "airplane_type",
+            "airplane_type_name",
         )
         read_only_fields = ("id",)
