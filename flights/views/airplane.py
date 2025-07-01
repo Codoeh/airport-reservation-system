@@ -10,6 +10,12 @@ class AirplaneViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        airplane_types = self.request.query_params.get("airplane_types")
+
+        if airplane_types:
+            airplane_types_ids = [int(str_id) for str_id in airplane_types.split(",")]
+            queryset = queryset.filter(airplane_type__id__in=airplane_types_ids)
+
         if self.action == "list":
             queryset = queryset.select_related("airplane_type")
         return queryset
