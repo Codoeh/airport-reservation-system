@@ -38,3 +38,11 @@ class AirplaneFilter(django_filters.FilterSet):
         model = Airplane
         fields = ["name", "airplane_type"]
 
+
+class AirplaneTypeFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr="icontains")
+
+    class Meta:
+        model = AirplaneType
+        fields = ["name",]
+
