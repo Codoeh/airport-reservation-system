@@ -22,9 +22,19 @@ class RouteFilter(django_filters.FilterSet):
     source = django_filters.CharFilter(field_name="source__name", lookup_expr="icontains")
     destination = django_filters.CharFilter(field_name="destination__name", lookup_expr="icontains")
     distance = django_filters.NumberFilter()
-    distance__gte = django_filters.NumberFilter(field_name="distance", lookup_expr='gte')
-    distance__lte = django_filters.NumberFilter(field_name="distance", lookup_expr='lte')
+    distance__gte = django_filters.NumberFilter(field_name="distance", lookup_expr="gte")
+    distance__lte = django_filters.NumberFilter(field_name="distance", lookup_expr="lte")
 
     class Meta:
         model = Route
         fields = ["source", "destination", "distance", "distance__gte", "distance__lte"]
+
+
+class AirplaneFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr="icontains")
+    airplane_type = django_filters.CharFilter(field_name="airplane_type__name", lookup_expr="icontains")
+
+    class Meta:
+        model = Airplane
+        fields = ["name", "airplane_type"]
+
