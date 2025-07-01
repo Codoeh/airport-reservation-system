@@ -16,3 +16,15 @@ class CrewFilter(django_filters.FilterSet):
     class Meta:
         model = Crew
         fields = ["first_name", "last_name", "flights"]
+
+
+class RouteFilter(django_filters.FilterSet):
+    source = django_filters.CharFilter(field_name="source__name", lookup_expr="icontains")
+    destination = django_filters.CharFilter(field_name="destination__name", lookup_expr="icontains")
+    distance = django_filters.NumberFilter()
+    distance__gte = django_filters.NumberFilter(field_name="distance", lookup_expr='gte')
+    distance__lte = django_filters.NumberFilter(field_name="distance", lookup_expr='lte')
+
+    class Meta:
+        model = Route
+        fields = ["source", "destination", "distance", "distance__gte", "distance__lte"]
