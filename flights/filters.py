@@ -6,7 +6,7 @@ from flights.models.airplane import Airplane
 from flights.models.airplane_type import AirplaneType
 from flights.models.ticket import Ticket
 from flights.models.order import Order
-
+from flights.models.airport import Airport
 
 class CrewFilter(django_filters.FilterSet):
     first_name = django_filters.CharFilter(lookup_expr="icontains")
@@ -46,3 +46,11 @@ class AirplaneTypeFilter(django_filters.FilterSet):
         model = AirplaneType
         fields = ["name",]
 
+
+class AirportFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr="icontains")
+    closest_big_city = django_filters.CharFilter(lookup_expr="icontains")
+
+    class Meta:
+        model = Airport
+        fields = ["name", "closest_big_city"]
