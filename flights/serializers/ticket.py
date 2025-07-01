@@ -1,7 +1,5 @@
 from rest_framework import serializers
 
-from .flight import FlightSerializer
-from .order import OrderSerializer
 from ..models.ticket import Ticket
 
 
@@ -15,11 +13,11 @@ class TicketSerializer(serializers.ModelSerializer):
             "flight",
             "order",
         )
-        read_only_fields = ("id",)
+        read_only_fields = ("id", "order")
 
 class TicketDetailSerializer(serializers.ModelSerializer):
-    flight = FlightSerializer(many=False, read_only=True)
-    order = OrderSerializer(many=False, read_only=True)
+    flight = serializers.StringRelatedField()
+    order = serializers.StringRelatedField()
 
     class Meta:
         model = Ticket
@@ -31,3 +29,7 @@ class TicketDetailSerializer(serializers.ModelSerializer):
             "order",
         )
         read_only_fields = ("id",)
+
+    def get_order(self, obj):
+        from .order import OrderSerializer
+        return OrderSerializer(obj.order).data

@@ -4,8 +4,7 @@ from flights.models import Ticket
 from flights.serializers.ticket import TicketSerializer, TicketDetailSerializer
 
 
-class TicketViewSet(viewsets.ModelViewSet):
-    # serializer_class = TicketSerializer
+class TicketViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Ticket.objects.all()
 
     def get_serializer_class(self):
