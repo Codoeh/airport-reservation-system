@@ -5,7 +5,6 @@ from ..models.ticket import Ticket
 
 
 class TicketSerializer(serializers.ModelSerializer):
-    order_date = serializers.DateTimeField(source="order.created_at", read_only=True)
     class Meta:
         model = Ticket
         fields = (
@@ -14,7 +13,6 @@ class TicketSerializer(serializers.ModelSerializer):
             "seat",
             "flight",
             "order",
-            "order_date",
         )
         read_only_fields = ("id", "order")
 
@@ -32,6 +30,22 @@ class TicketDetailSerializer(serializers.ModelSerializer):
             "order",
         )
         read_only_fields = ("id",)
+
+
+class TicketListSerializer(TicketSerializer):
+    order_date = serializers.DateTimeField(source="order.created_at", read_only=True)
+
+    class Meta:
+        model = Ticket
+        fields = (
+            "id",
+            "row",
+            "seat",
+            "flight",
+            "order",
+            "order_date",
+        )
+        read_only_fields = ("id", "order")
 
     def get_order(self, obj):
         from .order import OrderSerializer

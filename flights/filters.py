@@ -66,3 +66,11 @@ class TicketFilter(django_filters.FilterSet):
     class Meta:
         model = Ticket
         fields = ["row", "seat", "flight", "order", "order_date"]
+
+
+class OrderFilter(django_filters.FilterSet):
+    created_at = django_filters.DateFromToRangeFilter(field_name="created_at")
+
+    class Meta:
+        model = Order
+        fields = ["created_at"]
