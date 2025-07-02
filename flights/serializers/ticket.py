@@ -1,9 +1,11 @@
 from rest_framework import serializers
 
+from ..models import Order
 from ..models.ticket import Ticket
 
 
 class TicketSerializer(serializers.ModelSerializer):
+    order_date = serializers.DateTimeField(source="order.created_at", read_only=True)
     class Meta:
         model = Ticket
         fields = (
@@ -12,6 +14,7 @@ class TicketSerializer(serializers.ModelSerializer):
             "seat",
             "flight",
             "order",
+            "order_date",
         )
         read_only_fields = ("id", "order")
 

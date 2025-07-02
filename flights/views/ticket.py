@@ -1,11 +1,15 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 
+from flights.filters import TicketFilter
 from flights.models import Ticket
 from flights.serializers.ticket import TicketSerializer, TicketDetailSerializer
 
 
 class TicketViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Ticket.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TicketFilter
 
     def get_serializer_class(self):
         if self.action == "retrieve":

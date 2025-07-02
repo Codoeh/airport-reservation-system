@@ -54,3 +54,15 @@ class AirportFilter(django_filters.FilterSet):
     class Meta:
         model = Airport
         fields = ["name", "closest_big_city"]
+
+
+class TicketFilter(django_filters.FilterSet):
+    row = django_filters.NumberFilter()
+    seat = django_filters.NumberFilter()
+    flight = django_filters.NumberFilter(field_name="flight")
+    order = django_filters.NumberFilter(field_name="order")
+    order_date = django_filters.DateFromToRangeFilter(field_name="order__created_at")
+
+    class Meta:
+        model = Ticket
+        fields = ["row", "seat", "flight", "order", "order_date"]
