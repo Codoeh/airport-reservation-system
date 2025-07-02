@@ -10,6 +10,7 @@ class FlightSerializer(serializers.ModelSerializer):
     crew = CrewSimpleSerializer(many=True, read_only=True)
     route = RouteSerializer(many=False, read_only=True)
     airplane = AirplaneSerializer(many=False, read_only=True)
+    taken_seats = serializers.SerializerMethodField()
 
     class Meta:
         model = Flight
@@ -20,7 +21,14 @@ class FlightSerializer(serializers.ModelSerializer):
             "crew",
             "route",
             "airplane",
+            "taken_seats",
         )
+
+    def get_taken_seats(self, obj):
+        return [
+            f"Row: {ticket.row}, seat: {ticket.seat}, seat_nr: {(ticket.row - 1) * 10 + ticket.seat}"
+            for ticket in obj.tickets.all()
+        ]
 
 
 class FlightInCrewListSerializer(serializers.ModelSerializer):
