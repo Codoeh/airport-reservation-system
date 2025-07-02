@@ -57,6 +57,7 @@ class FlightListSerializer(serializers.ModelSerializer):
     crew = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     route = serializers.PrimaryKeyRelatedField(read_only=True)
     airplane = serializers.PrimaryKeyRelatedField(read_only=True)
+    tickets_available = serializers.SerializerMethodField()
 
     class Meta:
         model = Flight
@@ -67,4 +68,10 @@ class FlightListSerializer(serializers.ModelSerializer):
             "route",
             "airplane",
             "crew",
+            "tickets_available"
         )
+
+    def get_tickets_available(self, obj):
+        total_seats = obj.airplane.rows * obj.airplane.seats_in_row
+        taken_seats = obj.tickets.count()
+        return total_seats - taken_seats
