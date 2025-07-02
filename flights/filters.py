@@ -74,3 +74,15 @@ class OrderFilter(django_filters.FilterSet):
     class Meta:
         model = Order
         fields = ["created_at"]
+
+
+class FlightFilter(django_filters.FilterSet):
+    departure_time = django_filters.DateTimeFromToRangeFilter(field_name="departure_time")
+    arrival_time = django_filters.DateTimeFromToRangeFilter(field_name="arrival_time")
+    route = django_filters.CharFilter(field_name="route")
+    airplane = django_filters.CharFilter(field_name="airplane")
+    crew = django_filters.NumberFilter(field_name="crew__id")
+
+    class Meta:
+        model = Flight
+        fields = ["departure_time", "arrival_time", "route", "airplane", "crew"]
