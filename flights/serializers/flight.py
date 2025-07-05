@@ -75,3 +75,21 @@ class FlightListSerializer(serializers.ModelSerializer):
         total_seats = obj.airplane.rows * obj.airplane.seats_in_row
         taken_seats = obj.tickets.count()
         return total_seats - taken_seats
+
+
+class FlightInOrdersSerializer(FlightListSerializer):
+    source = serializers.PrimaryKeyRelatedField(read_only=True, source="route.source.name")
+    destination = serializers.PrimaryKeyRelatedField(read_only=True, source="route.destination.name")
+    airplane = serializers.PrimaryKeyRelatedField(read_only=True, source="airplane.name")
+    tickets_available = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Flight
+        fields = (
+            "id",
+            "departure_time",
+            "arrival_time",
+            "source",
+            "destination",
+            "airplane",
+        )

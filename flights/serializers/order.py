@@ -1,7 +1,7 @@
 from django.db import transaction
 from rest_framework import serializers
 
-from .ticket import TicketSerializer
+from .ticket import TicketSerializer, TicketInOrdersSerializer
 from ..models import Ticket
 from ..models.order import Order, User
 
@@ -33,3 +33,19 @@ class OrderSerializer(serializers.ModelSerializer):
                 ticket_data.pop("order", None)
                 Ticket.objects.create(order=order, **ticket_data)
             return order
+
+class OrderListSerializer(OrderSerializer):
+    tickets = TicketInOrdersSerializer(many=True, read_only=True)
+    user = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="username",
+    )
+    class Meta:
+        model = Order
+        fields = (
+            "id",
+            "created_at",
+            "user",
+            "tickets",
+        )
+        read_only_fields = ("id",)

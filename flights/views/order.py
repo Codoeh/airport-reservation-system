@@ -3,7 +3,7 @@ from rest_framework import viewsets
 
 from flights.filters import OrderFilter
 from flights.models import Order
-from flights.serializers.order import OrderSerializer
+from flights.serializers.order import OrderSerializer, OrderListSerializer
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -11,6 +11,11 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_class = OrderFilter
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return OrderListSerializer
+        return OrderSerializer
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
