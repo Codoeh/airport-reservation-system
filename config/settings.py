@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'flights',
     'django_filters',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -144,5 +145,11 @@ INTERNAL_IPS = [
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     "DEFAULT_PAGINATION_CLASS": "config.pagination.DefaultPagination",
-
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
 }
