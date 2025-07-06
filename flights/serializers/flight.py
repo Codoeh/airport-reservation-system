@@ -26,7 +26,8 @@ class FlightSerializer(serializers.ModelSerializer):
 
     def get_taken_seats(self, obj):
         return [
-            f"Row: {ticket.row}, seat: {ticket.seat}, seat_nr: {(ticket.row - 1) * 10 + ticket.seat}"
+            (f"Row: {ticket.row}, seat: {ticket.seat}, "
+             f"seat_nr: {(ticket.row - 1) * 10 + ticket.seat}")
             for ticket in obj.tickets.all()
         ]
 
@@ -34,9 +35,7 @@ class FlightSerializer(serializers.ModelSerializer):
 class FlightInCrewListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flight
-        fields = (
-            "id",
-        )
+        fields = ("id",)
 
 
 class FlightInCrewDetailSerializer(serializers.ModelSerializer):
@@ -53,6 +52,7 @@ class FlightInCrewDetailSerializer(serializers.ModelSerializer):
             "airplane",
         )
 
+
 class FlightListSerializer(serializers.ModelSerializer):
     crew = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     route = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -68,7 +68,7 @@ class FlightListSerializer(serializers.ModelSerializer):
             "route",
             "airplane",
             "crew",
-            "tickets_available"
+            "tickets_available",
         )
 
     def get_tickets_available(self, obj):
@@ -78,9 +78,15 @@ class FlightListSerializer(serializers.ModelSerializer):
 
 
 class FlightInOrdersSerializer(FlightListSerializer):
-    source = serializers.PrimaryKeyRelatedField(read_only=True, source="route.source.name")
-    destination = serializers.PrimaryKeyRelatedField(read_only=True, source="route.destination.name")
-    airplane = serializers.PrimaryKeyRelatedField(read_only=True, source="airplane.name")
+    source = serializers.PrimaryKeyRelatedField(
+        read_only=True, source="route.source.name"
+    )
+    destination = serializers.PrimaryKeyRelatedField(
+        read_only=True, source="route.destination.name"
+    )
+    airplane = serializers.PrimaryKeyRelatedField(
+        read_only=True, source="airplane.name"
+    )
     tickets_available = serializers.SerializerMethodField()
 
     class Meta:

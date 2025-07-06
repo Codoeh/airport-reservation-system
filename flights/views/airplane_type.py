@@ -7,7 +7,7 @@ from flights.serializers.airplane_type import AirplaneTypeSerializer
 
 
 class AirplaneTypeViewSet(viewsets.ModelViewSet):
-    serializer_class =  AirplaneTypeSerializer
+    serializer_class = AirplaneTypeSerializer
     queryset = AirplaneType.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_class = AirplaneTypeFilter

@@ -3,7 +3,11 @@ from rest_framework import viewsets
 
 from flights.filters import TicketFilter
 from flights.models import Ticket
-from flights.serializers.ticket import TicketSerializer, TicketDetailSerializer, TicketListSerializer
+from flights.serializers.ticket import (
+    TicketSerializer,
+    TicketDetailSerializer,
+    TicketListSerializer,
+)
 
 
 class TicketViewSet(viewsets.ReadOnlyModelViewSet):

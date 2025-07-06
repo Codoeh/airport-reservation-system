@@ -5,7 +5,11 @@ from rest_framework import viewsets
 from flights.filters import CrewFilter
 from flights.models import Flight
 from flights.models.crew import Crew
-from flights.serializers.crew import CrewSerializer, CrewListSerializer, CrewDetailSerializer
+from flights.serializers.crew import (
+    CrewSerializer,
+    CrewListSerializer,
+    CrewDetailSerializer,
+)
 
 
 class CrewViewSet(viewsets.ModelViewSet):
@@ -30,7 +34,7 @@ class CrewViewSet(viewsets.ModelViewSet):
                         "route__source",
                         "route__destination",
                         "airplane__airplane_type",
-                    )
+                    ),
                 )
             )
         return queryset

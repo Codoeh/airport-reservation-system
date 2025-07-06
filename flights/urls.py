@@ -12,7 +12,11 @@ from .views.ticket import TicketViewSet
 
 router = DefaultRouter()
 router.register(r"airplanes", AirplaneViewSet, basename="airplane")
-router.register(r"airplane_types", AirplaneTypeViewSet, basename="airplane_type")
+router.register(
+    r"airplane_types",
+    AirplaneTypeViewSet,
+    basename="airplane_type"
+)
 router.register(r"airports", AirportViewSet, basename="airport")
 router.register(r"crews", CrewViewSet, basename="crew")
 router.register(r"routes", RouteViewSet, basename="route")

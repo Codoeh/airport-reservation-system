@@ -22,7 +22,9 @@ class ChangePasswordView(APIView):
         new_password = request.data.get("new_password")
 
         if not user.check_password(old_password):
-            return Response({"error": "Wrong password"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "Wrong password"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         user.set_password(new_password)
         user.save()

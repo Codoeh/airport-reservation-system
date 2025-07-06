@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from .ticket import TicketSerializer, TicketInOrdersSerializer
 from ..models import Ticket
-from ..models.order import Order, User
+from ..models.order import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -12,6 +12,7 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field="username",
     )
+
     class Meta:
         model = Order
         fields = (
@@ -34,12 +35,14 @@ class OrderSerializer(serializers.ModelSerializer):
                 Ticket.objects.create(order=order, **ticket_data)
             return order
 
+
 class OrderListSerializer(OrderSerializer):
     tickets = TicketInOrdersSerializer(many=True, read_only=True)
     user = serializers.SlugRelatedField(
         read_only=True,
         slug_field="username",
     )
+
     class Meta:
         model = Order
         fields = (

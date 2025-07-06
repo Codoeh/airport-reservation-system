@@ -8,6 +8,7 @@ from flights.models.ticket import Ticket
 from flights.models.order import Order
 from flights.models.airport import Airport
 
+
 class CrewFilter(django_filters.FilterSet):
     first_name = django_filters.CharFilter(lookup_expr="icontains")
     last_name = django_filters.CharFilter(lookup_expr="icontains")
@@ -19,20 +20,37 @@ class CrewFilter(django_filters.FilterSet):
 
 
 class RouteFilter(django_filters.FilterSet):
-    source = django_filters.CharFilter(field_name="source__name", lookup_expr="icontains")
-    destination = django_filters.CharFilter(field_name="destination__name", lookup_expr="icontains")
+    source = django_filters.CharFilter(
+        field_name="source__name", lookup_expr="icontains"
+    )
+    destination = django_filters.CharFilter(
+        field_name="destination__name", lookup_expr="icontains"
+    )
     distance = django_filters.NumberFilter()
-    distance__gte = django_filters.NumberFilter(field_name="distance", lookup_expr="gte")
-    distance__lte = django_filters.NumberFilter(field_name="distance", lookup_expr="lte")
+    distance__gte = django_filters.NumberFilter(
+        field_name="distance", lookup_expr="gte"
+    )
+    distance__lte = django_filters.NumberFilter(
+        field_name="distance", lookup_expr="lte"
+    )
 
     class Meta:
         model = Route
-        fields = ["source", "destination", "distance", "distance__gte", "distance__lte"]
+        fields = [
+            "source",
+            "destination",
+            "distance",
+            "distance__gte",
+            "distance__lte",
+        ]
 
 
 class AirplaneFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(lookup_expr="icontains")
-    airplane_type = django_filters.CharFilter(field_name="airplane_type__name", lookup_expr="icontains")
+    airplane_type = django_filters.CharFilter(
+        field_name="airplane_type__name",
+        lookup_expr="icontains"
+    )
 
     class Meta:
         model = Airplane
@@ -44,7 +62,9 @@ class AirplaneTypeFilter(django_filters.FilterSet):
 
     class Meta:
         model = AirplaneType
-        fields = ["name",]
+        fields = [
+            "name",
+        ]
 
 
 class AirportFilter(django_filters.FilterSet):
@@ -61,7 +81,9 @@ class TicketFilter(django_filters.FilterSet):
     seat = django_filters.NumberFilter()
     flight = django_filters.NumberFilter(field_name="flight")
     order = django_filters.NumberFilter(field_name="order")
-    order_date = django_filters.DateFromToRangeFilter(field_name="order__created_at")
+    order_date = django_filters.DateFromToRangeFilter(
+        field_name="order__created_at"
+    )
 
     class Meta:
         model = Ticket
@@ -77,12 +99,22 @@ class OrderFilter(django_filters.FilterSet):
 
 
 class FlightFilter(django_filters.FilterSet):
-    departure_time = django_filters.DateTimeFromToRangeFilter(field_name="departure_time")
-    arrival_time = django_filters.DateTimeFromToRangeFilter(field_name="arrival_time")
+    departure_time = django_filters.DateTimeFromToRangeFilter(
+        field_name="departure_time"
+    )
+    arrival_time = django_filters.DateTimeFromToRangeFilter(
+        field_name="arrival_time"
+    )
     route = django_filters.CharFilter(field_name="route")
     airplane = django_filters.CharFilter(field_name="airplane")
     crew = django_filters.NumberFilter(field_name="crew__id")
 
     class Meta:
         model = Flight
-        fields = ["departure_time", "arrival_time", "route", "airplane", "crew"]
+        fields = [
+            "departure_time",
+            "arrival_time",
+            "route",
+            "airplane",
+            "crew"
+        ]
