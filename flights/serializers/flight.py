@@ -99,3 +99,27 @@ class FlightInOrdersSerializer(FlightListSerializer):
             "destination",
             "airplane",
         )
+
+
+class FlightInOrdersDetailSerializer(FlightListSerializer):
+    source = serializers.PrimaryKeyRelatedField(
+        read_only=True, source="route.source.name"
+    )
+    destination = serializers.PrimaryKeyRelatedField(
+        read_only=True, source="route.destination.name"
+    )
+    airplane = serializers.PrimaryKeyRelatedField(
+        read_only=True, source="airplane.name"
+    )
+    tickets_available = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Flight
+        fields = (
+            "id",
+            "departure_time",
+            "arrival_time",
+            "source",
+            "destination",
+            "airplane",
+        )

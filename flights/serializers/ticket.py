@@ -22,6 +22,16 @@ class TicketSerializer(serializers.ModelSerializer):
     def get_seat_number(self, obj):
         return ((obj.row - 1) * 10) + obj.seat
 
+    def validate(self, data):
+        flight = data["flight"]
+        row = data["row"]
+        seat = data["seat"]
+        airplane = flight.airplane
+
+        if row > airplane.rows or seat > airplane.seats_in_row:
+            raise serializers.ValidationError("Seat or row is out of range.")
+        return data
+
 
 class TicketDetailSerializer(TicketSerializer):
     flight = serializers.StringRelatedField()
@@ -59,16 +69,11 @@ class TicketListSerializer(TicketSerializer):
         )
         read_only_fields = ("id", "order")
 
-    def get_order(self, obj):
-        from .order import OrderSerializer
 
-        return OrderSerializer(obj.order).data
-
-
-class TicketInOrdersSerializer(TicketListSerializer):
+class TicketInOrdersSerializer(serializers.ModelSerializer):
+    seat_number = serializers.SerializerMethodField()
     flight = FlightInOrdersSerializer(
-        many=False,
-        read_only=True
+        read_only=True,
     )
 
     class Meta:
@@ -81,3 +86,18 @@ class TicketInOrdersSerializer(TicketListSerializer):
             "flight",
         )
         read_only_fields = ("id",)
+
+    def get_seat_number(self, obj):
+        return ((obj.row - 1) * 10) + obj.seat
+
+
+class TicketInOrderListSerializer(TicketSerializer):
+    class Meta:
+        model = Ticket
+        fields = [
+            "id",
+            "row",
+            "seat",
+            "flight",
+            "seat_number",
+        ]

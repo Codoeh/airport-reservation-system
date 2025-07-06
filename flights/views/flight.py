@@ -19,5 +19,10 @@ class FlightViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.action == "list":
-            queryset = queryset.select_related("airplane", "route")
+            queryset = queryset.select_related(
+                "airplane",
+                "route"
+            ).prefetch_related(
+                "tickets"
+            )
         return queryset
