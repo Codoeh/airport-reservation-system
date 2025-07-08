@@ -70,12 +70,14 @@ pip install -r requirements.txt
 Example `.env` file:
 
 ```env
-DEBUG=True
+# Set DEBUG=True to run API with SQLITE3
+DEBUG=False
 SECRET_KEY=<your_secret_key>
 DJANGO_SETTINGS_MODULE=config.settings
 DB_NAME=airport_db
 DB_USER=airport_user
 DB_PASSWORD=airport_pass
+# Set DB_HOST=localhost to run API with SQLITE3
 DB_HOST=db
 DB_PORT=5432
 ```

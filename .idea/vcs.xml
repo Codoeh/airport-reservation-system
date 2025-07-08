@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/airport-reservation-system" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/temp-main-clean" vcs="Git" />
   </component>
 </project>
