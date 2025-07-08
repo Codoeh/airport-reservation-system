@@ -181,3 +181,20 @@ REST_FRAMEWORK = {
 SITE_ID = 1
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Airport Reservation System",
+    "DESCRIPTION": """
+✈️ REST API to manage flights, tickets and orders.
+
+✅ Features:
+- Registration & JWT
+- Managing flights, routes, crew, airplanes.
+- Handling multi-ticket orders
+- Filtering, documentation, solving N+1 problem
+
+🔐 Login: /api/token/
+📘 Dokumentation: /api/docs/
+""",
+    "VERSION": "1.0.0",
+}
