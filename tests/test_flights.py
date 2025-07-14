@@ -1,71 +1,8 @@
 import pytest
-from django.contrib.auth.models import User
-from rest_framework.test import APIClient
 
 from flights.models import AirplaneType, Airplane
-from flights.models import Airport, Route, Flight, Order
+from flights.models import Order
 from flights.serializers.ticket import TicketSerializer
-
-
-@pytest.fixture
-def api_client():
-    return APIClient()
-
-
-@pytest.fixture
-def user(db):
-    return User.objects.create_user(username="testuser", password="pass1234")
-
-
-@pytest.fixture
-def authenticated_client(api_client, user):
-    api_client.force_authenticate(user=user)
-    return api_client
-
-
-@pytest.fixture
-def airport1():
-    return Airport.objects.create(name="JFK", closest_big_city="New York")
-
-
-@pytest.fixture
-def airport2():
-    return Airport.objects.create(name="LAX", closest_big_city="Los Angeles")
-
-
-@pytest.fixture
-def airplane_type():
-    return AirplaneType.objects.create(name="Boeing 737")
-
-
-@pytest.fixture
-def airplane(airplane_type):
-    return Airplane.objects.create(
-        name="PlaneA",
-        rows=5,
-        seats_in_row=4,
-        airplane_type=airplane_type
-    )
-
-
-@pytest.fixture
-def route(airport1, airport2):
-    return Route.objects.create(
-        source=airport1,
-        destination=airport2,
-        distance=4500
-    )
-
-
-@pytest.fixture
-def flight(airplane, route):
-    from datetime import datetime
-    return Flight.objects.create(
-        airplane=airplane,
-        route=route,
-        departure_time=datetime(2030, 1, 1, 10, 0),
-        arrival_time=datetime(2030, 1, 1, 14, 0)
-    )
 
 
 @pytest.mark.django_db
