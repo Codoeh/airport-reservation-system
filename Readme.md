@@ -66,7 +66,10 @@ source venv/bin/activate
 venv\Scripts\activate.bat
 # On Windows (PowerShell)
 venv\Scripts\Activate.ps1
+# Installation for production
 pip install -r requirements.txt
+# Installation for development
+pip install -r requirements.txt -r requirements-dev.txt
 ```
 
 ### 🔐 Create a `.env` file
