@@ -17,6 +17,7 @@
 .env
 *.env
 .env.*
+!.env.sample
 
 # Local configuration that shouldn't be shared
 *.local
