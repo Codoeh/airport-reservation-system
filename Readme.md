@@ -96,7 +96,8 @@ python manage.py runserver
 ## 🐳 Running with Docker
 
 ```bash
-docker-compose up --build
+# To install in development, set INSTALL_DEV=true
+docker-compose build --build-arg INSTALL_DEV=false
 ```
 
 Once started, the app will be available at:
