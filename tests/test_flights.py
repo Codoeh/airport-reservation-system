@@ -173,9 +173,10 @@ def test_order_delete(authenticated_client, flight):
     }
     response = authenticated_client.post("/api/orders/", data, format="json")
     assert response.status_code == 201
-    response = authenticated_client.delete("/api/orders/1/")
+    order_id = response.data["id"]
+    response = authenticated_client.delete(f"/api/orders/{order_id}/")
     assert response.status_code == 204
-    response = authenticated_client.get("/api/orders/1/")
+    response = authenticated_client.get(f"/api/orders/{order_id}/")
     assert response.status_code == 404
 
 
