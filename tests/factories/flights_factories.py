@@ -23,3 +23,13 @@ class AirplaneTypeFactory(factory.django.DjangoModelFactory):
         model = AirplaneType
 
     name = factory.Sequence(lambda n: f"Type{n}")
+
+
+class AirplaneFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Airplane
+
+    name = factory.Sequence(lambda n: f"Plane{n}")
+    rows = 5
+    seats_in_row = 4
+    airplane_type = factory.SubFactory(AirplaneTypeFactory)
