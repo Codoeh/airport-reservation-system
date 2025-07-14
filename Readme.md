@@ -49,9 +49,7 @@ Built with Django, Django REST Framework, JWT authentication, and Docker.
 
 ## ⚙️ Requirements
 
-- Python 3.11+
-- PostgreSQL (or SQLite for development)
-- pip, virtualenv or poetry
+- Python 3.11
 
 ---
 
@@ -61,25 +59,20 @@ Built with Django, Django REST Framework, JWT authentication, and Docker.
 git clone https://github.com/Codoeh/airport-reservation-system.git
 cd airport-reservation-system
 python -m venv venv
+
+# On Linux / macOS
 source venv/bin/activate
+# On Windows (CMD)
+venv\Scripts\activate.bat
+# On Windows (PowerShell)
+venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
 ### 🔐 Create a `.env` file
 
-Example `.env` file:
-
-```env
-# Set DEBUG=True to run API with SQLITE3
-DEBUG=False
-SECRET_KEY=<your_secret_key>
-DJANGO_SETTINGS_MODULE=config.settings
-DB_NAME=airport_db
-DB_USER=airport_user
-DB_PASSWORD=airport_pass
-# Set DB_HOST=localhost to run API with SQLITE3
-DB_HOST=db
-DB_PORT=5432
+```bash
+cp .env.sample .env
 ```
 
 > 💡 Generate a Django secret key:
@@ -126,6 +119,10 @@ Auto-generated docs available after running the server:
 ---
 
 ## 🧪 Testing
+
+```bash
+pip install pytest pytest-django
+```
 
 The following tests are recommended:
 
