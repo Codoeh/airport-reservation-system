@@ -19,8 +19,8 @@ def api_client():
 
 
 @pytest.fixture
-def user(db):
-    return UserFactory()
+def user_factory():
+    return UserFactory
 
 
 @pytest.fixture

@@ -1,12 +1,5 @@
 import pytest
-from django.contrib.auth.models import User
-
-from rest_framework.test import APIClient
-
-
-@pytest.fixture
-def api_client():
-    return APIClient()
+from tests.conftest import user_factory
 
 
 @pytest.mark.django_db
@@ -22,14 +15,13 @@ def test_register(api_client):
 
 
 @pytest.mark.django_db
-def test_login(api_client):
-    username = "tester"
-    password = "1qazCDE#"
+def test_login(api_client, user_factory):
+    user = user_factory(username="tester", password="1qazCDE#")
+
     data = {
         "username": "tester",
         "password": "1qazCDE#"
     }
-    User.objects.create_user(username=username, password=password)
     response = api_client.post("/api/token/", data, format="json")
     assert response.status_code == 200
     assert "token" in response.data
