@@ -14,7 +14,10 @@ services:
       - "5432:5432"
 
   web:
-    build: .
+    build:
+      context: .
+      args:
+        INSTALL_DEV: "false"
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
@@ -27,3 +30,4 @@ services:
 
 volumes:
   postgres_data:
+
