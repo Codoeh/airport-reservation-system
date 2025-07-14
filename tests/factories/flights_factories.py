@@ -8,6 +8,7 @@ Route,
 Flight,
 Order
 )
+from tests.factories.user_factories import UserFactory
 
 
 class AirportFactory(factory.django.DjangoModelFactory):
@@ -52,3 +53,10 @@ class FlightFactory(factory.django.DjangoModelFactory):
     route = factory.SubFactory(RouteFactory)
     departure_time = factory.Faker("date_time_this_decade")
     arrival_time = factory.Faker("date_time_this_decade")
+
+
+class OrderFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Order
+
+    user = factory.SubFactory(UserFactory)
