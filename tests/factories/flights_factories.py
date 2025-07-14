@@ -43,3 +43,12 @@ class RouteFactory(factory.django.DjangoModelFactory):
     destination = factory.SubFactory(AirportFactory)
     distance = 4500
 
+
+class FlightFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Flight
+
+    airplane = factory.SubFactory(AirplaneFactory)
+    route = factory.SubFactory(RouteFactory)
+    departure_time = factory.Faker("date_time_this_decade")
+    arrival_time = factory.Faker("date_time_this_decade")
