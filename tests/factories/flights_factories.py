@@ -33,3 +33,13 @@ class AirplaneFactory(factory.django.DjangoModelFactory):
     rows = 5
     seats_in_row = 4
     airplane_type = factory.SubFactory(AirplaneTypeFactory)
+
+
+class RouteFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Route
+
+    source = factory.SubFactory(AirportFactory)
+    destination = factory.SubFactory(AirportFactory)
+    distance = 4500
+
