@@ -4,11 +4,11 @@ import pytest
 from rest_framework.test import APIClient
 
 from tests.factories.flights_factories import (
-AirportFactory,
-AirplaneTypeFactory,
-AirplaneFactory,
-RouteFactory,
-FlightFactory
+    AirportFactory,
+    AirplaneTypeFactory,
+    AirplaneFactory,
+    RouteFactory,
+    FlightFactory, OrderFactory, TicketFactory
 )
 from tests.factories.user_factories import UserFactory
 
@@ -19,8 +19,11 @@ def api_client():
 
 
 @pytest.fixture
-def user_factory():
-    return UserFactory
+def user(db):
+    user = UserFactory(username="tester")
+    user.set_password("1qazCDE#")
+    user.save()
+    return user
 
 
 @pytest.fixture
@@ -75,3 +78,19 @@ def flight(airplane, route):
         departure_time=datetime(2030, 1, 1, 10, 0),
         arrival_time=datetime(2030, 1, 1, 14, 0)
     )
+
+
+@pytest.fixture
+def invalid_ticket_data(flight):
+    return {"seat": 20, "row": 20, "flight": flight.id}
+
+
+@pytest.fixture
+def order_with_tickets(user, flight):
+    order = OrderFactory(user=user)
+    TicketFactory.create_batch(
+        8,
+        order=order,
+        flight=flight
+    )
+    return order

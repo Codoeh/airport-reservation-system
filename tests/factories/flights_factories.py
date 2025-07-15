@@ -1,12 +1,12 @@
 import factory
 
 from flights.models import (
-Airport,
-Airplane,
-AirplaneType,
-Route,
-Flight,
-Order
+    Airport,
+    Airplane,
+    AirplaneType,
+    Route,
+    Flight,
+    Order, Ticket
 )
 from tests.factories.user_factories import UserFactory
 
@@ -60,3 +60,13 @@ class OrderFactory(factory.django.DjangoModelFactory):
         model = Order
 
     user = factory.SubFactory(UserFactory)
+
+
+class TicketFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Ticket
+
+    row = factory.Sequence(lambda n: (n // 4) + 1)
+    seat = factory.Sequence(lambda n: (n % 4) + 1)
+    flight = factory.SubFactory(FlightFactory)
+    order = factory.SubFactory(OrderFactory)

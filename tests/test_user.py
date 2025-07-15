@@ -1,5 +1,4 @@
 import pytest
-from tests.conftest import user_factory
 
 
 @pytest.mark.django_db
@@ -15,9 +14,7 @@ def test_register(api_client):
 
 
 @pytest.mark.django_db
-def test_login(api_client, user_factory):
-    user = user_factory(username="tester", password="1qazCDE#")
-
+def test_login(api_client, user):
     data = {
         "username": "tester",
         "password": "1qazCDE#"

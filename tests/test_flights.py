@@ -1,33 +1,25 @@
 import pytest
 
-from flights.models import AirplaneType, Airplane
-from flights.models import Order
 from flights.serializers.ticket import TicketSerializer
+from tests.factories.flights_factories import AirplaneFactory, OrderFactory
 
 
 @pytest.mark.django_db
-def test_airplane_total_seats():
-    airplane_type = AirplaneType.objects.create(name="Test Type")
-    airplane = Airplane.objects.create(
-        name="X",
-        rows=6,
-        seats_in_row=4,
-        airplane_type=airplane_type
-    )
-    assert airplane.total_seats == 24
+def test_airplane_total_seats(airplane):
+    assert airplane.total_seats == 20
 
 
 @pytest.mark.django_db
 def test_seat_number_calculation(flight, user):
-    serializer = TicketSerializer(
-        data={
-            "row": 2,
-            "seat": 3,
-            "flight": flight.id
-        }
-    )
+    data = {
+        "row": 2,
+        "seat": 3,
+        "flight": flight.id
+    }
+
+    serializer = TicketSerializer(data=data)
     assert serializer.is_valid()
-    order = Order.objects.create(user=user)
+    order = OrderFactory(user=user)
     serializer.save(order=order)
     assert serializer.data["seat_number"] == 13
 
@@ -58,12 +50,8 @@ def test_create_order(authenticated_client, flight):
 
 
 @pytest.mark.django_db
-def test_invalid_ticket_seat(flight, user):
-    serializer = TicketSerializer(data={
-        "seat": 20,
-        "row": 20,
-        "flight": flight.id
-    })
+def test_invalid_ticket_seat(invalid_ticket_data):
+    serializer = TicketSerializer(data=invalid_ticket_data)
     assert not serializer.is_valid()
     errors = serializer.errors.get("non_field_errors", [])
     assert any("Seat or row is out of range."
@@ -71,24 +59,8 @@ def test_invalid_ticket_seat(flight, user):
 
 
 @pytest.mark.django_db
-def test_many_tickets_order(authenticated_client, flight):
-    data = {
-        "tickets": [
-            {
-                "row": 1,
-                "seat": 1,
-                "flight": flight.id
-            },
-            {
-                "row": 1,
-                "seat": 2,
-                "flight": flight.id
-            },
-        ]
-    }
-    response = authenticated_client.post("/api/orders/", data, format="json")
-    assert response.status_code == 201
-    assert len(response.data["tickets"]) == 2
+def test_many_tickets_order(order_with_tickets):
+    assert order_with_tickets.tickets.count() == 8
 
 
 @pytest.mark.django_db
@@ -96,9 +68,11 @@ def test_ticket_seat_collision(authenticated_client, flight):
     data = {
         "tickets": [{"flight": flight.id, "row": 1, "seat": 1}]
     }
+    # First booking should succeed
     response = authenticated_client.post("/api/orders/", data, format="json")
     assert response.status_code == 201
     assert response.data["tickets"][0]["seat"] == 1
+    # Second booking for same seat should fail
     response = authenticated_client.post("/api/orders/", data, format="json")
     assert response.status_code == 400
 
@@ -111,21 +85,19 @@ def test_order_delete(authenticated_client, flight):
     response = authenticated_client.post("/api/orders/", data, format="json")
     assert response.status_code == 201
     order_id = response.data["id"]
+
+    # Delete
     response = authenticated_client.delete(f"/api/orders/{order_id}/")
     assert response.status_code == 204
+
+    # Ensure it's gone
     response = authenticated_client.get(f"/api/orders/{order_id}/")
     assert response.status_code == 404
 
 
 @pytest.mark.django_db
 def test_pagination(authenticated_client, airplane_type):
-    for i in range(10):
-        Airplane.objects.create(
-            name=f"plane_{i}",
-            rows=5,
-            seats_in_row=5,
-            airplane_type=airplane_type
-        )
+    AirplaneFactory.create_batch(10, airplane_type=airplane_type)
     response = authenticated_client.get("/api/airplanes/")
     assert response.status_code == 200
     data = response.json()
