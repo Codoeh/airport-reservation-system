@@ -44,7 +44,7 @@ Built with Django, Django REST Framework, JWT authentication, and Docker.
 - Separate serializers for different views (List, Detail, Simple)
 - Custom filters using `django_filters`
 - Full API documentation via Swagger UI and Redoc
-
+- Factory boy library for tests
 ---
 
 ## ⚙️ Requirements
