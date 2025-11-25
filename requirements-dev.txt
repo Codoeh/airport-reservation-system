@@ -1,4 +1,3 @@
-allauth==0.0.1
 asgiref==3.8.1
 attrs==25.3.0
 black==25.1.0
