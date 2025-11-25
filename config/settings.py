@@ -180,7 +180,7 @@ SPECTACULAR_SETTINGS = {
 - Filtering, documentation, solving N+1 problem
 
 🔐 Login: /api/token/
-📘 Dokumentation: /api/docs/
+📘 Documentation: /api/docs/
 """,
     "VERSION": "1.0.0",
 }
