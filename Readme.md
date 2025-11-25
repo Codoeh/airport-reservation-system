@@ -97,12 +97,12 @@ python manage.py runserver
 
 ```bash
 # 🔧 For production (only required packages):
-docker-compose build --build-arg INSTALL_DEV=false
+docker compose build --build-arg INSTALL_DEV=false
 
 # 🧪 For development (adds testing & linting tools):
-docker-compose build --build-arg INSTALL_DEV=true
-docker-compose run web python manage.py migrate
-docker-compose up
+docker compose build --build-arg INSTALL_DEV=true
+docker compose run web python manage.py migrate
+docker compose up
 ```
 
 Once started, the app will be available at:
