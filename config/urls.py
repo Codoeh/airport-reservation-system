@@ -16,6 +16,7 @@ Including another URLconf
 """
 
 from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import (
@@ -38,6 +39,9 @@ if settings.DEBUG and not getattr(settings, "TESTING", False):
         debug_toolbar_urls = lambda: []
 
     urlpatterns += debug_toolbar_urls()
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += [
     path(
